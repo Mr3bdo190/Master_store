@@ -1,4 +1,4 @@
-name: Build Master Store APK
+name: Build and Sync Client App
 
 on:
   push:
@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # صلاحية الكتابة والرفع للمستودع
 
     steps:
       - uses: actions/checkout@v4
@@ -22,16 +24,20 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Generate Platform Folders
-        run: flutter create .
+      - name: Generate Android Files
+        run: flutter create . --platforms android
 
+      # إرجاع المجلدات المنشأة للمستودع (Sync)
+      - name: Push Generated Files back to Repo
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "GitHub Actions: Generated Client Android platform files" || echo "No changes to commit"
+          git push
+      
       - name: Install Dependencies
         run: flutter pub get
-
-      - name: Generate App Icon & Native Splash
-        run: |
-          flutter pub run flutter_launcher_icons
-          flutter pub run flutter_native_splash:create
 
       - name: Build Android APK
         run: flutter build apk --release
@@ -39,5 +45,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: MasterStore-Release-APK
+          name: MasterStore-Client-APK
           path: build/app/outputs/flutter-apk/app-release.apk
