@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key});
@@ -6,8 +7,12 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0, iconTheme: const IconThemeData(color: Colors.deepPurple)),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        actions: [
+          IconButton(icon: const Icon(Icons.share_outlined), onPressed: () => Get.snackbar('مشاركة', 'تم نسخ رابط المنتج بنجاح!')),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -18,29 +23,26 @@ class ProductDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Expanded(child: Text('منتج جامد جداً', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))), IconButton(icon: const Icon(Icons.favorite_border, color: Colors.deepPurple), onPressed: (){})]),
-                  // التقييمات
-                  Row(children: [
-                    ...List.generate(4, (index) => const Icon(Icons.star, color: Colors.amber, size: 20)),
-                    const Icon(Icons.star_half, color: Colors.amber, size: 20),
-                    const SizedBox(width: 8),
-                    const Text('(4.5 / 5) - 120 تقييم', style: TextStyle(color: Colors.grey)),
-                  ]),
-                  const SizedBox(height: 16),
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Expanded(child: Text('تيشيرت صيفي ممتاز', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))), IconButton(icon: const Icon(Icons.favorite_border, color: Colors.deepPurple), onPressed: () => Get.snackbar('المفضلة', 'تم الإضافة للمفضلة'))]),
+                  const SizedBox(height: 8),
                   const Text('1500 ج.م', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+                  const SizedBox(height: 24),
+                  
+                  // المقاسات
+                  const Text('اختر المقاس:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Row(children: ['S', 'M', 'L', 'XL'].map((s) => Padding(padding: const EdgeInsets.only(left: 8.0), child: Chip(label: Text(s), backgroundColor: s == 'L' ? Colors.deepPurple : Colors.grey[200], labelStyle: TextStyle(color: s == 'L' ? Colors.white : Colors.black)))).toList()),
+                  const SizedBox(height: 16),
+                  
+                  // الألوان
+                  const Text('اختر اللون:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Row(children: [Colors.black, Colors.red, Colors.blue].map((c) => Padding(padding: const EdgeInsets.only(left: 8.0), child: CircleAvatar(backgroundColor: c, radius: 20, child: c == Colors.black ? const Icon(Icons.check, color: Colors.white, size: 20) : null))).toList()),
+                  
                   const SizedBox(height: 24),
                   const Text('الوصف', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  Text('نص افتراضي لوصف المنتج بالتفصيل علشان العميل يعرف كل حاجة قبل ما يشتري.', style: TextStyle(fontSize: 16, color: Colors.grey[600], height: 1.5)),
-                  const SizedBox(height: 24),
-                  const Text('آراء العملاء', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  ListTile(
-                    leading: const CircleAvatar(backgroundColor: Colors.deepPurple, child: Icon(Icons.person, color: Colors.white)),
-                    title: const Text('أحمد محمد'),
-                    subtitle: const Text('منتج ممتاز جداً وتوصيل سريع!'),
-                    trailing: const Icon(Icons.star, color: Colors.amber, size: 20),
-                  )
+                  Text('خامة قطنية 100% مريحة جداً للاستخدام اليومي، متوفرة بألوان تناسب جميع الأذواق.', style: TextStyle(fontSize: 16, color: Colors.grey[600], height: 1.5)),
                 ],
               ),
             ),
@@ -49,8 +51,8 @@ class ProductDetailsScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(color: Colors.white),
-        child: ElevatedButton(onPressed: (){}, style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, padding: const EdgeInsets.symmetric(vertical: 16)), child: const Text('إضافة إلى السلة', style: TextStyle(fontSize: 18, color: Colors.white))),
+        decoration: BoxDecoration(color: Theme.of(context).cardColor, boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, -5))]),
+        child: ElevatedButton(onPressed: () => Get.snackbar('سلة المشتريات', 'تمت الإضافة للسلة', backgroundColor: Colors.green, colorText: Colors.white), style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))), child: const Text('إضافة إلى السلة', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))),
       ),
     );
   }

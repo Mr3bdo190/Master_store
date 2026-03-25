@@ -20,22 +20,13 @@ class ProfileScreen extends StatelessWidget {
           const Text('boda@masterstore.com', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey, fontSize: 16)),
           const SizedBox(height: 40),
 
-          // تفعيل أزرار التنقل
           _buildProfileOption(Icons.shopping_bag_outlined, 'طلباتي السابقة', onTap: () => Get.to(() => const OrdersScreen())),
-          _buildProfileOption(Icons.location_on_outlined, 'عناوين التوصيل', onTap: () => Get.snackbar('تنبيه', 'سيتم تفعيل هذه الميزة قريباً', backgroundColor: Colors.orange, colorText: Colors.white)),
+          _buildProfileOption(Icons.location_on_outlined, 'عناوين التوصيل', onTap: () => Get.snackbar('إضافة عنوان', 'سيتم فتح خريطة جوجل لتحديد موقعك بدقة قريباً!')),
           _buildProfileOption(Icons.headset_mic_outlined, 'الدعم الفني والتواصل', onTap: () => Get.to(() => const SupportChatScreen())),
           
           const Divider(height: 32),
-          ListTile(
-            leading: const Icon(Icons.dark_mode_outlined),
-            title: Text('dark_mode'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
-            trailing: Switch(value: Get.isDarkMode, activeColor: Colors.deepPurple, onChanged: (val) => Get.changeThemeMode(val ? ThemeMode.dark : ThemeMode.light)),
-          ),
-          ListTile(
-            leading: const Icon(Icons.language),
-            title: Text('language'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
-            trailing: TextButton(onPressed: () => Get.updateLocale(Get.locale?.languageCode == 'ar' ? const Locale('en', 'US') : const Locale('ar', 'EG')), child: Text(Get.locale?.languageCode == 'ar' ? 'English' : 'العربية', style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold))),
-          ),
+          ListTile(leading: const Icon(Icons.dark_mode_outlined), title: Text('dark_mode'.tr, style: const TextStyle(fontWeight: FontWeight.bold)), trailing: Switch(value: Get.isDarkMode, activeColor: Colors.deepPurple, onChanged: (val) => Get.changeThemeMode(val ? ThemeMode.dark : ThemeMode.light))),
+          ListTile(leading: const Icon(Icons.language), title: Text('language'.tr, style: const TextStyle(fontWeight: FontWeight.bold)), trailing: TextButton(onPressed: () => Get.updateLocale(Get.locale?.languageCode == 'ar' ? const Locale('en', 'US') : const Locale('ar', 'EG')), child: Text(Get.locale?.languageCode == 'ar' ? 'English' : 'العربية', style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold)))),
           
           const Divider(height: 32),
           _buildProfileOption(Icons.description_outlined, 'terms'.tr, onTap: () => Get.to(() => LegalScreen(title: 'terms'.tr))),
@@ -43,17 +34,7 @@ class ProfileScreen extends StatelessWidget {
           
           const Divider(height: 32),
           _buildProfileOption(Icons.logout, 'logout'.tr, color: Colors.red, onTap: () {
-            // تفعيل نافذة تسجيل الخروج المنبثقة
-            Get.defaultDialog(
-              title: "تسجيل الخروج",
-              middleText: "هل أنت متأكد أنك تريد تسجيل الخروج؟",
-              textConfirm: "نعم",
-              textCancel: "إلغاء",
-              confirmTextColor: Colors.white,
-              buttonColor: Colors.red,
-              cancelTextColor: Colors.deepPurple,
-              onConfirm: () => Get.offAll(() => LoginScreen()), // الرجوع لصفحة الدخول
-            );
+            Get.defaultDialog(title: "تسجيل الخروج", middleText: "هل أنت متأكد؟", textConfirm: "نعم", textCancel: "إلغاء", confirmTextColor: Colors.white, buttonColor: Colors.red, onConfirm: () => Get.offAll(() => LoginScreen()));
           }),
         ],
       ),
@@ -66,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
       leading: Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: color == Colors.black87 ? Colors.deepPurple.withOpacity(0.1) : color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)), child: Icon(icon, color: color == Colors.black87 ? Colors.deepPurple : color)),
       title: Text(title, style: TextStyle(color: color == Colors.black87 ? null : color, fontSize: 18, fontWeight: FontWeight.w600)),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-      onTap: onTap, // ربط الدالة هنا
+      onTap: onTap,
     );
   }
 }

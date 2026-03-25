@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
-import '../../../core/widgets/empty_state_widget.dart';
+import 'package:get/get.dart';
+import 'order_tracking_screen.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // هنغير دي بعدين لما نربط بقاعدة البيانات
-    bool hasOrders = false; 
-
     return Scaffold(
-      appBar: AppBar(title: const Text('طلباتي', style: TextStyle(color: Colors.deepPurple)), backgroundColor: Colors.white, elevation: 1, iconTheme: const IconThemeData(color: Colors.deepPurple)),
-      body: hasOrders 
-          ? ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return ListTile(title: Text('طلب رقم #${index + 1000}')); // تصميم مبدئي للطلب
-              },
-            )
-          : const EmptyStateWidget(
-              icon: Icons.receipt_long,
-              title: 'لا توجد طلبات سابقة',
-              subtitle: 'قم بتصفح المنتجات وأضف ما يعجبك لتسجيل أول طلب لك!',
+      appBar: AppBar(title: const Text('طلباتي'), centerTitle: true),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(16),
+              leading: const CircleAvatar(backgroundColor: Colors.deepPurple, child: Icon(Icons.shopping_bag, color: Colors.white)),
+              title: Text('طلب رقم #${1000 + index}', style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: const Text('التاريخ: 25 أكتوبر 2023\nالحالة: جاري التجهيز'),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () => Get.to(() => const OrderTrackingScreen()), // الانتقال لشاشة التتبع
             ),
+          );
+        },
+      ),
     );
   }
 }
