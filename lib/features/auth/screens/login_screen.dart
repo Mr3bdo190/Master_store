@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'signup_screen.dart';
+import 'forgot_password_screen.dart';
 import '../../home/screens/main_layout.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -26,31 +26,29 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Text('مرحباً بك في متجرك', textAlign: TextAlign.center, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
                   const SizedBox(height: 40),
-                  TextFormField(
-                    validator: (value) => value!.isEmpty ? 'الرجاء إدخال البريد الإلكتروني' : null,
-                    decoration: InputDecoration(labelText: 'البريد الإلكتروني', filled: true, fillColor: Colors.white, border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none), prefixIcon: const Icon(Icons.email_outlined, color: Colors.deepPurple)),
-                  ),
+                  TextFormField(validator: (val) => val!.isEmpty ? 'مطلوب' : null, decoration: InputDecoration(labelText: 'البريد الإلكتروني', filled: true, fillColor: Colors.white, border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none), prefixIcon: const Icon(Icons.email_outlined, color: Colors.deepPurple))),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    obscureText: true,
-                    validator: (value) => value!.isEmpty ? 'الرجاء إدخال كلمة المرور' : null,
-                    decoration: InputDecoration(labelText: 'كلمة المرور', filled: true, fillColor: Colors.white, border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none), prefixIcon: const Icon(Icons.lock_outline, color: Colors.deepPurple)),
+                  TextFormField(obscureText: true, validator: (val) => val!.isEmpty ? 'مطلوب' : null, decoration: InputDecoration(labelText: 'كلمة المرور', filled: true, fillColor: Colors.white, border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none), prefixIcon: const Icon(Icons.lock_outline, color: Colors.deepPurple))),
+                  
+                  // ربط زرار نسيت كلمة المرور
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      onPressed: () => Get.to(() => const ForgotPasswordScreen()), 
+                      child: const Text('نسيت كلمة المرور؟', style: TextStyle(color: Colors.deepPurple))
+                    ),
                   ),
-                  const SizedBox(height: 32),
+                  
+                  const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Get.offAll(() => const MainLayout()); // انتقال باستخدام GetX
-                      }
+                      if (_formKey.currentState!.validate()) Get.offAll(() => const MainLayout());
                     },
                     style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16), backgroundColor: Colors.deepPurple, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
                     child: const Text('تسجيل الدخول', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
                   ),
                   const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () => Get.to(() => const SignupScreen()), // انتقال باستخدام GetX
-                    child: const Text('ليس لديك حساب؟ إنشاء حساب جديد', style: TextStyle(color: Colors.deepPurple, fontSize: 16)),
-                  )
+                  TextButton(onPressed: () => Get.to(() => const SignupScreen()), child: const Text('ليس لديك حساب؟ إنشاء حساب جديد', style: TextStyle(color: Colors.deepPurple, fontSize: 16)))
                 ],
               ),
             ),

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../legal/screens/legal_screen.dart';
+import '../../orders/screens/orders_screen.dart';
+import '../../support/screens/support_chat_screen.dart';
+import '../../auth/screens/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -9,55 +14,59 @@ class ProfileScreen extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(24.0),
         children: [
-          // صورة وبيانات المستخدم
-          const Center(
-            child: CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.deepPurple,
-              child: Icon(Icons.person, size: 60, color: Colors.white),
-            ),
-          ),
+          const Center(child: CircleAvatar(radius: 50, backgroundColor: Colors.deepPurple, child: Icon(Icons.person, size: 60, color: Colors.white))),
           const SizedBox(height: 16),
-          const Text(
-            'عبدالرحمن (بودا)', 
-            textAlign: TextAlign.center, 
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)
-          ),
-          Text(
-            'boda@masterstore.com', 
-            textAlign: TextAlign.center, 
-            style: TextStyle(color: Colors.grey[600], fontSize: 16)
-          ),
+          const Text('عبدالرحمن (بودا)', textAlign: TextAlign.center, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const Text('boda@masterstore.com', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey, fontSize: 16)),
           const SizedBox(height: 40),
 
-          // خيارات الحساب
-          _buildProfileOption(Icons.shopping_bag_outlined, 'طلباتي السابقة'),
-          _buildProfileOption(Icons.location_on_outlined, 'عناوين التوصيل'),
-          _buildProfileOption(Icons.headset_mic_outlined, 'الدعم الفني والتواصل'),
-          _buildProfileOption(Icons.settings_outlined, 'إعدادات الحساب'),
+          // تفعيل أزرار التنقل
+          _buildProfileOption(Icons.shopping_bag_outlined, 'طلباتي السابقة', onTap: () => Get.to(() => const OrdersScreen())),
+          _buildProfileOption(Icons.location_on_outlined, 'عناوين التوصيل', onTap: () => Get.snackbar('تنبيه', 'سيتم تفعيل هذه الميزة قريباً', backgroundColor: Colors.orange, colorText: Colors.white)),
+          _buildProfileOption(Icons.headset_mic_outlined, 'الدعم الفني والتواصل', onTap: () => Get.to(() => const SupportChatScreen())),
           
-          const Padding(padding: EdgeInsets.symmetric(vertical: 16), child: Divider()),
+          const Divider(height: 32),
+          ListTile(
+            leading: const Icon(Icons.dark_mode_outlined),
+            title: Text('dark_mode'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
+            trailing: Switch(value: Get.isDarkMode, activeColor: Colors.deepPurple, onChanged: (val) => Get.changeThemeMode(val ? ThemeMode.dark : ThemeMode.light)),
+          ),
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: Text('language'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
+            trailing: TextButton(onPressed: () => Get.updateLocale(Get.locale?.languageCode == 'ar' ? const Locale('en', 'US') : const Locale('ar', 'EG')), child: Text(Get.locale?.languageCode == 'ar' ? 'English' : 'العربية', style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold))),
+          ),
           
-          _buildProfileOption(Icons.logout, 'تسجيل الخروج', color: Colors.red),
+          const Divider(height: 32),
+          _buildProfileOption(Icons.description_outlined, 'terms'.tr, onTap: () => Get.to(() => LegalScreen(title: 'terms'.tr))),
+          _buildProfileOption(Icons.privacy_tip_outlined, 'privacy'.tr, onTap: () => Get.to(() => LegalScreen(title: 'privacy'.tr))),
+          
+          const Divider(height: 32),
+          _buildProfileOption(Icons.logout, 'logout'.tr, color: Colors.red, onTap: () {
+            // تفعيل نافذة تسجيل الخروج المنبثقة
+            Get.defaultDialog(
+              title: "تسجيل الخروج",
+              middleText: "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+              textConfirm: "نعم",
+              textCancel: "إلغاء",
+              confirmTextColor: Colors.white,
+              buttonColor: Colors.red,
+              cancelTextColor: Colors.deepPurple,
+              onConfirm: () => Get.offAll(() => LoginScreen()), // الرجوع لصفحة الدخول
+            );
+          }),
         ],
       ),
     );
   }
 
-  // دالة مساعدة لعمل أزرار القائمة بشكل نظيف
-  Widget _buildProfileOption(IconData icon, String title, {Color color = Colors.black87}) {
+  Widget _buildProfileOption(IconData icon, String title, {Color color = Colors.black87, required VoidCallback onTap}) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-        child: Icon(icon, color: color),
-      ),
-      title: Text(title, style: TextStyle(color: color, fontSize: 18, fontWeight: FontWeight.w600)),
+      leading: Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: color == Colors.black87 ? Colors.deepPurple.withOpacity(0.1) : color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)), child: Icon(icon, color: color == Colors.black87 ? Colors.deepPurple : color)),
+      title: Text(title, style: TextStyle(color: color == Colors.black87 ? null : color, fontSize: 18, fontWeight: FontWeight.w600)),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-      onTap: () {
-        // سيتم إضافة كود التنقل لاحقاً
-      },
+      onTap: onTap, // ربط الدالة هنا
     );
   }
 }
