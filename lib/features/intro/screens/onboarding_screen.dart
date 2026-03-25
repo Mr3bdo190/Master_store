@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../auth/screens/login_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -36,13 +37,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen())),
+                    onPressed: () => Get.offAll(() => LoginScreen()), // تم إزالة const واستخدام GetX
                     child: const Text('تخطي', style: TextStyle(color: Colors.grey, fontSize: 16)),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       if (_currentPage == 2) {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                        Get.offAll(() => LoginScreen()); // تم إزالة const واستخدام GetX
                       } else {
                         _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                       }

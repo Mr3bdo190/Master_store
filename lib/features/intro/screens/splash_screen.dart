@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:async';
 import 'onboarding_screen.dart';
 
@@ -14,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OnboardingScreen()));
+      Get.offAll(() => const OnboardingScreen()); // استخدام GetX للتنقل السلس
     });
   }
 
