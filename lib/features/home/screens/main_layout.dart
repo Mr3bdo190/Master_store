@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
+import '../../cart/screens/cart_screen.dart';
+import '../../profile/screens/profile_screen.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -10,17 +13,18 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
 
-  // هنا هنحط الصفحات بتاعتنا بعدين (الرئيسية، السلة، المفضلة، الحساب)
+  // تم ربط الشاشات الحقيقية هنا
   final List<Widget> _pages = [
-    const Center(child: Text('الرئيسية', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-    const Center(child: Text('المفضلة', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-    const Center(child: Text('سلة المشتريات', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-    const Center(child: Text('حسابي', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+    const HomeScreen(),
+    const Center(child: Text('المفضلة', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple))), // هنبنيها بعدين
+    const CartScreen(),
+    const ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

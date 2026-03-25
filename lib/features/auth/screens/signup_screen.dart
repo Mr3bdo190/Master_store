@@ -20,7 +20,6 @@ class SignupScreen extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
@@ -30,42 +29,47 @@ class SignupScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'انضم إلينا وابدأ التسوق الآن',
+                  'أكمل بياناتك لتبدأ التسوق',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
-                const SizedBox(height: 40),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'الاسم بالكامل',
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                    prefixIcon: const Icon(Icons.person_outline, color: Colors.deepPurple),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'البريد الإلكتروني',
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                    prefixIcon: const Icon(Icons.email_outlined, color: Colors.deepPurple),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'كلمة المرور',
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                    prefixIcon: const Icon(Icons.lock_outline, color: Colors.deepPurple),
-                  ),
-                ),
                 const SizedBox(height: 32),
+                
+                // الاسم الأول والاسم الأخير في نفس السطر
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildTextField('الاسم الأول', Icons.person_outline),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildTextField('الاسم الأخير', Icons.person_outline),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                
+                // رقم الهاتف
+                _buildTextField('رقم الهاتف', Icons.phone_android_outlined, isPhone: true),
+                const SizedBox(height: 16),
+                
+                // تاريخ الميلاد
+                _buildTextField('تاريخ الميلاد', Icons.calendar_today_outlined, isDate: true),
+                const SizedBox(height: 16),
+
+                // البريد الإلكتروني
+                _buildTextField('البريد الإلكتروني', Icons.email_outlined),
+                const SizedBox(height: 16),
+                
+                // كلمة المرور
+                _buildTextField('كلمة المرور', Icons.lock_outline, isPassword: true),
+                const SizedBox(height: 16),
+
+                // تأكيد كلمة المرور
+                _buildTextField('تأكيد كلمة المرور', Icons.lock_outline, isPassword: true),
+                const SizedBox(height: 32),
+                
+                // زر التسجيل
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -74,12 +78,28 @@ class SignupScreen extends StatelessWidget {
                     backgroundColor: Colors.deepPurple,
                     elevation: 5,
                   ),
-                  child: const Text('تسجيل', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                  child: const Text('إنشاء الحساب', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
                 ),
+                const SizedBox(height: 24),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  // دالة مساعدة لعمل الحقول بشكل أنظف وتقليل تكرار الكود
+  Widget _buildTextField(String label, IconData icon, {bool isPassword = false, bool isPhone = false, bool isDate = false}) {
+    return TextFormField(
+      obscureText: isPassword,
+      keyboardType: isPhone ? TextInputType.phone : (isDate ? TextInputType.datetime : TextInputType.text),
+      decoration: InputDecoration(
+        labelText: label,
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+        prefixIcon: Icon(icon, color: Colors.deepPurple),
       ),
     );
   }
