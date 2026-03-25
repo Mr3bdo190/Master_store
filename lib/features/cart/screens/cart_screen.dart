@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../checkout/screens/checkout_screen.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -8,60 +10,21 @@ class CartScreen extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text('سلة المشتريات', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
-          ),
-          // قائمة منتجات السلة
+          const Padding(padding: EdgeInsets.all(16.0), child: Text('سلة المشتريات', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple))),
           Expanded(
             child: ListView.builder(
-              itemCount: 3, // عدد المنتجات الوهمية
+              itemCount: 2,
               itemBuilder: (context, index) {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  color: Colors.white,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        // صورة المنتج
-                        Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(Icons.shopping_bag, color: Colors.grey),
-                        ),
+                        Container(width: 80, height: 80, decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(12)), child: const Icon(Icons.shopping_bag)),
                         const SizedBox(width: 16),
-                        // تفاصيل المنتج
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('منتج جامد ${index + 1}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                              const SizedBox(height: 8),
-                              const Text('1500 ج.م', style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold, fontSize: 16)),
-                            ],
-                          ),
-                        ),
-                        // أزرار التحكم في الكمية
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove_circle_outline, color: Colors.deepPurple),
-                              onPressed: () {},
-                            ),
-                            const Text('1', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                            IconButton(
-                              icon: const Icon(Icons.add_circle_outline, color: Colors.deepPurple),
-                              onPressed: () {},
-                            ),
-                          ],
-                        )
+                        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('منتج ${index + 1}', style: const TextStyle(fontWeight: FontWeight.bold)), const Text('1500 ج.م', style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold))])),
+                        Row(children: [IconButton(icon: const Icon(Icons.remove_circle_outline), onPressed: (){}), const Text('1'), IconButton(icon: const Icon(Icons.add_circle_outline), onPressed: (){})])
                       ],
                     ),
                   ),
@@ -69,33 +32,28 @@ class CartScreen extends StatelessWidget {
               },
             ),
           ),
-          // شريط إتمام الطلب السفلي
+          // حقل كوبون الخصم
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Expanded(child: TextField(decoration: InputDecoration(hintText: 'أدخل كود الخصم', filled: true, fillColor: Colors.white, border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none)))),
+                const SizedBox(width: 8),
+                ElevatedButton(onPressed: (){}, style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24)), child: const Text('تطبيق', style: TextStyle(color: Colors.white))),
+              ],
+            ),
+          ),
           Container(
             padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: const Offset(0, -5))],
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-            ),
+            decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text('الإجمالي:', style: TextStyle(color: Colors.grey, fontSize: 16)),
-                    Text('4500 ج.م', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
-                  ],
-                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [Text('الإجمالي:', style: TextStyle(color: Colors.grey, fontSize: 16)), Text('3000 ج.م', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple))]),
                 ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    elevation: 5,
-                  ),
-                  child: const Text('إتمام الطلب', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                  onPressed: () => Get.to(() => const CheckoutScreen()), 
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))), 
+                  child: const Text('إتمام الطلب', style: TextStyle(fontSize: 18, color: Colors.white)),
                 )
               ],
             ),

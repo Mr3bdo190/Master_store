@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'features/intro/screens/splash_screen.dart';
 
 void main() {
@@ -11,19 +12,17 @@ class MasterStoreApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    // استخدمنا GetMaterialApp بدل MaterialApp علشان قوة GetX في التنقل وإدارة الحالة
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Master Store',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        // تطبيق خط Cairo على التطبيق بالكامل
         textTheme: GoogleFonts.cairoTextTheme(Theme.of(context).textTheme),
       ),
-      home: const Directionality(
-        textDirection: TextDirection.rtl,
-        child: SplashScreen(), // بدأنا بشاشة البداية
-      ),
+      textDirection: TextDirection.rtl, // تحديد الاتجاه الافتراضي للتطبيق كله
+      home: const SplashScreen(),
     );
   }
 }
