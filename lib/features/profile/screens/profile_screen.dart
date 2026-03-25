@@ -4,6 +4,9 @@ import '../../legal/screens/legal_screen.dart';
 import '../../orders/screens/orders_screen.dart';
 import '../../support/screens/support_chat_screen.dart';
 import '../../auth/screens/login_screen.dart';
+import '../../wallet/screens/wallet_screen.dart';
+import '../../addresses/screens/addresses_screen.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -14,14 +17,31 @@ class ProfileScreen extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(24.0),
         children: [
-          const Center(child: CircleAvatar(radius: 50, backgroundColor: Colors.deepPurple, child: Icon(Icons.person, size: 60, color: Colors.white))),
-          const SizedBox(height: 16),
-          const Text('عبدالرحمن (بودا)', textAlign: TextAlign.center, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          const Text('boda@masterstore.com', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey, fontSize: 16)),
+          Row(
+            children: [
+              const CircleAvatar(radius: 40, backgroundColor: Colors.deepPurple, child: Icon(Icons.person, size: 50, color: Colors.white)),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('عبدالرحمن (بودا)', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text('boda@masterstore.com', style: TextStyle(color: Colors.grey)),
+                    const SizedBox(height: 8),
+                    InkWell(
+                      onTap: () => Get.to(() => const EditProfileScreen()),
+                      child: const Text('تعديل الحساب', style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
           const SizedBox(height: 40),
 
+          _buildProfileOption(Icons.account_balance_wallet_outlined, 'المحفظة ونقاط الولاء', onTap: () => Get.to(() => const WalletScreen())),
           _buildProfileOption(Icons.shopping_bag_outlined, 'طلباتي السابقة', onTap: () => Get.to(() => const OrdersScreen())),
-          _buildProfileOption(Icons.location_on_outlined, 'عناوين التوصيل', onTap: () => Get.snackbar('إضافة عنوان', 'سيتم فتح خريطة جوجل لتحديد موقعك بدقة قريباً!')),
+          _buildProfileOption(Icons.location_on_outlined, 'عناوين التوصيل', onTap: () => Get.to(() => const AddressesScreen())),
           _buildProfileOption(Icons.headset_mic_outlined, 'الدعم الفني والتواصل', onTap: () => Get.to(() => const SupportChatScreen())),
           
           const Divider(height: 32),
