@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'features/auth/screens/login_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'features/intro/screens/splash_screen.dart';
 
 void main() {
   runApp(const MasterStoreApp());
@@ -16,11 +17,12 @@ class MasterStoreApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        fontFamily: 'Cairo', // هنضيف خط عربي مميز قدام
+        // تطبيق خط Cairo على التطبيق بالكامل
+        textTheme: GoogleFonts.cairoTextTheme(Theme.of(context).textTheme),
       ),
       home: const Directionality(
         textDirection: TextDirection.rtl,
-        child: LoginScreen(),
+        child: SplashScreen(), // بدأنا بشاشة البداية
       ),
     );
   }
