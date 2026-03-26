@@ -10,7 +10,7 @@ android {
     compileSdk = 36
     
     // 🔴 الحل القاضي: إجبار فلاتر على مترجم C++ مستقر لفايربيز
-    ndkVersion = "25.1.8937393"
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
