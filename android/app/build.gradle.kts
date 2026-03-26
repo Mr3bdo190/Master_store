@@ -8,6 +8,9 @@ plugins {
 android {
     namespace = "com.example.master_store"
     compileSdk = 36
+    
+    // 🔴 الحل القاضي: إجبار فلاتر على مترجم C++ مستقر لفايربيز
+    ndkVersion = "25.1.8937393"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -20,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.master_store"
-        minSdk = 23  // رفعناها لـ 23 علشان مكاتب فايربيز الجديدة
+        minSdk = 23
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -32,7 +35,6 @@ android {
         }
     }
 
-    // 🔴 السلاح السري: تجاهل أي تحذيرات بتوقف البناء
     lint {
         checkReleaseBuilds = false
         abortOnError = false
