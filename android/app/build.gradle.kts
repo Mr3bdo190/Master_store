@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.master_store"
-    compileSdk = 34
+    compileSdk = 36
 
     // 🔴 الحل السحري: توحيد الإصدارات هنا
     compileOptions {
