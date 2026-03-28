@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.master_store"
-    compileSdk = 36
+    compileSdk = 34
     
     // 🔴 الحل القاضي: إجبار فلاتر على مترجم C++ مستقر لفايربيز
     ndkVersion = "27.0.12077973"
@@ -24,7 +24,7 @@ android {
     defaultConfig {
         applicationId = "com.example.master_store"
         minSdk = 23
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
